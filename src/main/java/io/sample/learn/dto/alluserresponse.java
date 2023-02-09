@@ -13,7 +13,7 @@ public class alluserresponse {
     private String name;
     private String nickname;
 
-    public static alluserresponse from(Member member)
+    public static    alluserresponse from(Member member)
     {
         return alluserresponse.builder()
                 .account(member.getAccount())

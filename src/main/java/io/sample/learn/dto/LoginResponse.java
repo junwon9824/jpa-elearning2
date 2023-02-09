@@ -1,7 +1,7 @@
 package io.sample.learn.dto;
 
-import io.sample.learn.entity.Roles;
 import io.sample.learn.entity.Member;
+import io.sample.learn.entity.Roles;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +14,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SignResponse {
+public class LoginResponse {
 
     private Long id;
 
@@ -28,10 +28,10 @@ public class SignResponse {
 
     private List<Roles> roles = new ArrayList<>();
 
-//    private String token;
+    private String token;
     private Long point;
 
-    public SignResponse(Member member) {
+    public LoginResponse(Member member) {
         this.id = member.getId();
         this.account = member.getAccount();
         this.nickname = member.getNickname();

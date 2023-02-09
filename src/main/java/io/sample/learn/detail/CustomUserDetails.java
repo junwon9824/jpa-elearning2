@@ -1,6 +1,7 @@
 package io.sample.learn.detail;
 
 import io.sample.learn.entity.*;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.core.*;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.*;
@@ -19,6 +20,7 @@ public class CustomUserDetails implements UserDetails {
     public final Member getMember() {
         return member;
     }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

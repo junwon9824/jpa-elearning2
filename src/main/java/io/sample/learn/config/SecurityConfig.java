@@ -1,5 +1,6 @@
 package io.sample.learn.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.sample.learn.jwt.JwtAuthenticationFilter;
 import io.sample.learn.jwt.JwtProvider;
 import io.sample.learn.repository.MemberRepository;
@@ -8,6 +9,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.*;
 import org.springframework.context.annotation.*;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -23,7 +26,9 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Configuration
 @RequiredArgsConstructor
@@ -51,16 +56,23 @@ public class SecurityConfig {
                                 config.setAllowedMethods(
                                         List.of("*")
                                 );
+                                config.setAllowedHeaders(
+                                        List.of("*")
+
+                                );
+
                                 return config;
                             };
                             c.configurationSource(source);
                         }
+
+
                 )
                 // Spring Security 세션 정책 : 세션을 생성 및 사용하지 않음
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
 
-                // new version
+
 
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/user/**").hasRole("USER")
@@ -70,17 +82,18 @@ public class SecurityConfig {
                         .anyRequest().denyAll()
                 )
 //
-//                //추가된코드
-//                .logout().disable() // 6
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-
-
 
                 // JWT 인증 필터 적용
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
                 // 에러 핸들링
                 .exceptionHandling()
                 .accessDeniedHandler(new AccessDeniedHandler() {
+
+
+
+
+
+
                     @Override
                     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
                         // 권한 문제가 발생했을 때 이 부분을 호출한다.
@@ -95,12 +108,15 @@ public class SecurityConfig {
                     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
                         // 인증문제가 발생했을 때 이 부분을 호출한다.
 
+
+
+
                         if(response.getStatus()==500)
                         {
                              response.setCharacterEncoding("utf-8");
                             response.setContentType("text/html; charset=UTF-8");
 
-                            response.getWriter().write("사용자가 db에 존재 또는 존재하지 않습니다");
+                            response.getWriter().write(" 콘솔창을 통해 에러 내용을 확인해주세요.");
 
                         }
                         else
@@ -114,10 +130,13 @@ public class SecurityConfig {
                             response.setContentType("text/html; charset=UTF-8");
 
 
-                            response.getWriter().write("인증되지 않은 사용자입니다.");
-                            response.getWriter().write("올바른 토큰을 입력해주세요");
+                            response.getWriter().write("error! 잘못된 토큰일수도 있습니다. 아니면 콘솔창을 통해 에러 내용을 확인해주세요");
+
 
                         }
+
+
+
                     }
                 });
 

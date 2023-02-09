@@ -10,7 +10,7 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@CrossOrigin(origins = "http://localhost:8080") // 추가
 @RestController
 @RequiredArgsConstructor
 public class SignController {
@@ -21,15 +21,24 @@ public class SignController {
     private final UserService userService;
 
     @PostMapping(value = "/login")
-    public ResponseEntity<SignResponse> signin(@RequestBody SignRequest request) throws Exception {
+    public ResponseEntity<LoginResponse> signin(@RequestBody SignRequest request) throws Exception {
         return new ResponseEntity<>(memberService.login(request), HttpStatus.OK);
     }
 
     @PostMapping(value = "/register")
     public ResponseEntity<String> signup(@RequestBody SignRequest request) throws Exception {
+//    public ResponseEntity<String> signup(@RequestBody SignRequest request)   {
         return new ResponseEntity<>(memberService.register(request), HttpStatus.OK);
 
     }
+
+    @PutMapping(value = "/user/toadmin")
+    public ResponseEntity<String > toadmin(@RequestParam String email)
+    {
+        return new ResponseEntity<String >(memberService.toadmin(email),HttpStatus.OK);
+
+    }
+
 
     @GetMapping(value = "/user/get")
     public ResponseEntity<SignResponse> getUser(@RequestParam String account) throws Exception {

@@ -1,7 +1,7 @@
 package io.sample.learn.dto;
 
 
- import lombok.*;
+  import lombok.*;
 
 @Getter @Setter
 public class SignRequest {
@@ -17,5 +17,7 @@ public class SignRequest {
     private String name;
 
     private String email;
+
+    private Long point;
 
 }

@@ -3,6 +3,7 @@ package io.sample.learn.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.beans.factory.support.MergedBeanDefinitionPostProcessor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +24,17 @@ public class File {
 
     private String description;
 
+    private Long price;
+
     private String filepath;
+
+
+
+    private String owneremail;
+
+
     @OneToMany(mappedBy = "file")
     private List<BuyFiles> members = new ArrayList<>();
-
 
 
 
@@ -34,9 +42,6 @@ public class File {
         this.members = members;
         members.forEach(o -> o.setFile(this));
     }
-
-
-
 
 
 }

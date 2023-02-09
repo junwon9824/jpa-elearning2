@@ -9,6 +9,7 @@ import lombok.*;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.Collections;
 import java.util.List;
@@ -23,7 +24,7 @@ public class SignService {
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
 
-    public SignResponse login(SignRequest request) throws Exception {
+    public LoginResponse login(SignRequest request) throws Exception {
         Member member = memberRepository.findByAccount(request.getAccount()).orElseThrow(() ->
                 new BadCredentialsException("잘못된 계정정보입니다."));
 
@@ -31,39 +32,43 @@ public class SignService {
             throw new BadCredentialsException("잘못된 계정정보입니다.");
         }
 
-        return SignResponse.builder()
+        return LoginResponse.builder()
                 .id(member.getId())
                 .account(member.getAccount())
                 .name(member.getName())
                 .email(member.getEmail())
                 .nickname(member.getNickname())
                 .roles(member.getRoles())
+                .point(member.getPoint())
                 .token(jwtProvider.createToken(member.getAccount(), member.getRoles()))
                 .build();
 
     }
+
     @Transactional
 //    public String register(SignRequest request) throws Exception {
-    public String register(SignRequest request)  {
+    public String register(SignRequest request) {
 //        try {
-            if(memberRepository.findByAccount(request.getAccount()).isPresent()) {
-                throw new IllegalArgumentException("account exists.");
+        if (memberRepository.findByAccount(request.getAccount()).isPresent()) {
+            throw new IllegalArgumentException("account exists.");
 
-            }
+        }
 
-            Member member = Member.builder()
-                    .account(request.getAccount())
-                    .password(passwordEncoder.encode(request.getPassword()))
-                    .name(request.getName())
-                    .nickname(request.getNickname())
-                    .email(request.getEmail())
-                    .build();
+        Member member = Member.builder()
+                .account(request.getAccount())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .name(request.getName())
+                .nickname(request.getNickname())
+                .email(request.getEmail())
+//                .point(request.getPoint())
+                .build();
 
-            member.setRoles(Collections.singletonList(Roles.builder().name("ROLE_USER").build()));
+        member.setPoint(0L);
+        member.setRoles(Collections.singletonList(Roles.builder().name("ROLE_USER").build()));
 
 
-            memberRepository.save(member);
-            return "register success ";
+        memberRepository.save(member);
+        return "register success ";
 
 //        } catch (Exception e) {
 //            System.out.println(e.getMessage());
@@ -74,6 +79,17 @@ public class SignService {
 //        }
 
 
+    }
+
+    public String toadmin(String email) {
+        Member member = memberRepository.findByemail(email);
+
+        member.setRoles(Collections.singletonList(Roles.builder()
+                .name("ROLE_USER")
+                .name("ROLE_ADMIN")
+                .build()));
+
+        return member.getAccount() + " 님의 관리자 권한이 추가되었습니다.";
     }
 
     public SignResponse getMember(String account) throws Exception {

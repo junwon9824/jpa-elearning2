@@ -9,7 +9,7 @@ import java.util.*;
 
 @Entity
 @Getter
-
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,6 +27,7 @@ public class Member extends BaseTimeEntity {
     private String nickname;
 
     private String name;
+    private Long point;
 
     @Column(unique = true)
     private String email;
@@ -36,9 +37,11 @@ public class Member extends BaseTimeEntity {
     private List<Roles> roles = new ArrayList<>();
 
 
-
     @OneToMany(mappedBy = "member")
     private List<BuyFiles> files = new ArrayList<>();
+
+
+    private List<Long> madefiles = new ArrayList<>();
 
 
     public void setRoles(List<Roles> role) {
@@ -48,13 +51,12 @@ public class Member extends BaseTimeEntity {
 
 
     public void setFile(List<BuyFiles> files) {
-        this.files= files;
-     }
+        this.files = files;
+    }
 
 
-    public void setPassword(String pwd)
-    {
-        this.password=pwd;
+    public void setPassword(String pwd) {
+        this.password = pwd;
     }
 
 }
