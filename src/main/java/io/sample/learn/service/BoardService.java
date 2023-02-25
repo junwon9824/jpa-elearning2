@@ -143,21 +143,23 @@ public class BoardService {
 //
 //    }
 
-    public String   findimagename(String title) throws IOException {
-         Board board=boardRepository.findBytitle(title);
-        String imagename;
-        imagename=board.getFilename();
-        return  imagename;
-    }
+
+//
+//    public String findimagename(String title) throws IOException {
+//        Board board = boardRepository.findBytitle(title);
+//        String imagename;
+//        imagename = board.getFilename();
+//        return imagename;
+//    }
 
 
     public byte[] downloadImageFromFileSystem(String fileName) throws IOException {
         Board board = boardRepository.findByfilename(fileName);
 
         String name = board.getFilename();
-        String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files\\"+name;
+        String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files\\" + name;
 
-        System.out.println("download filePath: {}"+ projectPath);
+        System.out.println("download filePath: {}" + projectPath);
 
         return Files.readAllBytes(new File(projectPath).toPath());
     }
