@@ -2,7 +2,9 @@ package io.sample.learn.dto;
 
 import io.sample.learn.entity.Board;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.time.LocalDateTime;
 
 @Builder
@@ -11,7 +13,7 @@ import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
-public class Allfilesresponse {
+public class AllBoardsresponse {
 
     private Long id;
 
@@ -20,23 +22,24 @@ public class Allfilesresponse {
     private String description;
 
     private String filepath;
+    private String filename;
 
     private Long price;
     private String owneremail;
     private LocalDateTime createdDate;
 
-//
-//    public Allfilesresponse(File file)
-//    {
-//        this.id=file.getId();
-//        this.text=file.getText();
-//        this.description=file.getDescription();
-//        this.filepath=file.getFilepath();
-//        this.price=file.getPrice();
-//    }
+    private  File file;
+    private  MultipartFile multipartFile;
 
-    public static Allfilesresponse from(Board board) {
-        return Allfilesresponse.builder()
+    public File getFile() {
+        return new File(filepath, filename);
+    }
+
+
+    public static AllBoardsresponse from(Board board) {
+        File getFile= new File(board.getFilepath(),board.getFilename());
+
+        return AllBoardsresponse.builder()
                 .id(board.getId())
                 .title(board.getTitle())
                 .description(board.getDescription())
@@ -44,7 +47,8 @@ public class Allfilesresponse {
                 .price(board.getPrice())
                 .owneremail(board.getOwneremail())
                 .createdDate(board.getCreatedDate())
-                .build();
+                .filename(board.getFilename())
+                 .build();
 
     }
 }

@@ -1,31 +1,37 @@
 package io.sample.learn.service;
 
-import io.sample.learn.dto.Filebuyrequest;
+import io.sample.learn.dto.Boardbuyrequest;
 import io.sample.learn.dto.Boardsaverequest;
 import io.sample.learn.entity.Member;
 import io.sample.learn.repository.BoardRepository;
-import io.sample.learn.repository.BuyFilesRepository;
- import io.sample.learn.repository.MemberRepository;
+import io.sample.learn.repository.BuyBoardRepository;
+import io.sample.learn.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import io.sample.learn.entity.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 
-public class FileService {
+public class BoardService {
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
 
-    private final BuyFilesRepository buyFilesRepository;
-
-    @Value("${file.dir}")//application.yml 파일에 있는 file.dir의 내용을 가져옴
-    private String fileDir;
+    private final BuyBoardRepository buyBoardRepository;
 
 //
 //    @Transactional
@@ -54,14 +60,24 @@ public class FileService {
 //
 //    }
 
-    public void write(Boardsaverequest boardsaverequest, MultipartFile multipartFile) {
+    public String write(Boardsaverequest boardsaverequest) throws Exception {
 
         String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
 
-        Member member = memberRepository.findByemail(boardsaverequest.getEmail());
+        UUID uuid = UUID.randomUUID();
+        MultipartFile file = boardsaverequest.getMultipartFile();
 
+        System.out.println("title" + boardsaverequest.getTitle());
         System.out.println("email owner" + boardsaverequest.getEmail());
-        System.out.println("meber info" + member.getNickname());
+
+
+        String fileName = uuid + "_" + file.getOriginalFilename();
+        File saveFile = new File(projectPath, fileName);
+
+        file.transferTo(saveFile);
+
+
+        Member member = memberRepository.findByemail(boardsaverequest.getEmail());
 
 
         Board board = (Board.builder()
@@ -70,6 +86,8 @@ public class FileService {
                 .title(boardsaverequest.getTitle())
                 .price(boardsaverequest.getPrice())
                 .owneremail(member.getEmail())
+                .filename(fileName)
+                .filepath("/files/" + fileName)
                 .build());
 
 
@@ -80,11 +98,11 @@ public class FileService {
 
     }
 
-    public String buy(Filebuyrequest filebuyrequest) {
+    public String buy(Boardbuyrequest boardbuyrequest) {
 
-        Board board = boardRepository.findBytitle(filebuyrequest.getFiletext());
+        Board board = boardRepository.findBytitle(boardbuyrequest.getFiletext());
 
-        Member member = memberRepository.findByemail(filebuyrequest.getEmail());
+        Member member = memberRepository.findByemail(boardbuyrequest.getEmail());
 
 
         System.out.println("member money" + member.getPoint());
@@ -97,7 +115,7 @@ public class FileService {
         }
 
 
-        buyFilesRepository.save(BuyFiles.builder()
+        buyBoardRepository.save(BuyBoard.builder()
                 .board(board)
                 .member(member)
 
@@ -125,5 +143,23 @@ public class FileService {
 //
 //    }
 
+    public String   findimagename(String title) throws IOException {
+         Board board=boardRepository.findBytitle(title);
+        String imagename;
+        imagename=board.getFilename();
+        return  imagename;
+    }
+
+
+    public byte[] downloadImageFromFileSystem(String fileName) throws IOException {
+        Board board = boardRepository.findByfilename(fileName);
+
+        String name = board.getFilename();
+        String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files\\"+name;
+
+        System.out.println("download filePath: {}"+ projectPath);
+
+        return Files.readAllBytes(new File(projectPath).toPath());
+    }
 
 }

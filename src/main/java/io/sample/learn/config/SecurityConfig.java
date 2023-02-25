@@ -130,7 +130,7 @@ public class SecurityConfig {
                             response.setContentType("text/html; charset=UTF-8");
 
 
-                            response.getWriter().write("error! 잘못된 토큰일수도 있습니다. 아니면 콘솔창을 통해 에러 내용을 확인해주세요");
+                            response.getWriter().write("error! 잘못된 토큰일수도 있습니다. 콘솔창을 통해 에러 내용을 확인해주세요");
 
 
                         }

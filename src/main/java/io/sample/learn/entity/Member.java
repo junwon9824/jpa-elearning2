@@ -38,7 +38,7 @@ public class Member extends BaseTimeEntity {
 
 
     @OneToMany(mappedBy = "member")
-    private List<BuyFiles> files = new ArrayList<>();
+    private List<BuyBoard> files = new ArrayList<>();
 
 
     private List<Long> madefiles = new ArrayList<>();
@@ -50,7 +50,7 @@ public class Member extends BaseTimeEntity {
     }
 
 
-    public void setFile(List<BuyFiles> files) {
+    public void setFile(List<BuyBoard> files) {
         this.files = files;
     }
 
