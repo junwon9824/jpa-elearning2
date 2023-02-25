@@ -22,13 +22,13 @@ public class BuyFiles {
 
     @ManyToOne
     @JoinColumn(name = "file_id")
-    private File file;
+    private Board board;
 
 
-    public BuyFiles(Member member, File file)
+    public BuyFiles(Member member, Board board)
     {
         this.member=member;
-        this.file=file;
+        this.board=board;
 
     }
 

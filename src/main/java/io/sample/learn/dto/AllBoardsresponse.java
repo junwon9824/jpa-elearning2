@@ -1,8 +1,9 @@
 package io.sample.learn.dto;
 
-import io.sample.learn.entity.File;
-import io.sample.learn.entity.Member;
+import io.sample.learn.entity.Board;
 import lombok.*;
+
+import java.time.LocalDateTime;
 
 @Builder
 @Getter
@@ -14,7 +15,7 @@ public class Allfilesresponse {
 
     private Long id;
 
-    private String text;
+    private String title;
 
     private String description;
 
@@ -22,6 +23,8 @@ public class Allfilesresponse {
 
     private Long price;
     private String owneremail;
+    private LocalDateTime createdDate;
+
 //
 //    public Allfilesresponse(File file)
 //    {
@@ -32,15 +35,15 @@ public class Allfilesresponse {
 //        this.price=file.getPrice();
 //    }
 
-    public static Allfilesresponse from (File file)
-    {
-        return   Allfilesresponse.builder()
-                .id(file.getId())
-                .text(file.getText())
-                .description(file.getDescription())
-                .filepath(file.getFilepath())
-                .price(file.getPrice())
-                .owneremail(file.getOwneremail())
+    public static Allfilesresponse from(Board board) {
+        return Allfilesresponse.builder()
+                .id(board.getId())
+                .title(board.getTitle())
+                .description(board.getDescription())
+                .filepath(board.getFilepath())
+                .price(board.getPrice())
+                .owneremail(board.getOwneremail())
+                .createdDate(board.getCreatedDate())
                 .build();
 
     }
