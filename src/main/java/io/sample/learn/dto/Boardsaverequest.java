@@ -30,7 +30,7 @@ public class Boardsaverequest {
 
     private List<BuyBoard> members = new ArrayList<>();
 
-    private MultipartFile multipartFile;
+    private MultipartFile [] multipartFile;
     public Boardsaverequest(Board file) {
         this.id = file.getId();
         this.title = file.getTitle();

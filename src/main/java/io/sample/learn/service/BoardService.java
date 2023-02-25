@@ -21,6 +21,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -65,16 +67,22 @@ public class BoardService {
         String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
 
         UUID uuid = UUID.randomUUID();
-        MultipartFile file = boardsaverequest.getMultipartFile();
+        MultipartFile[] file = boardsaverequest.getMultipartFile();
 
         System.out.println("title" + boardsaverequest.getTitle());
         System.out.println("email owner" + boardsaverequest.getEmail());
+        String[] fileName = new String[file.length];
+        File[] saveFile=new File[file.length];
+
+        for (int i = 0; i < file.length; i++) {
+            fileName[i] =uuid + "_" + file[i].getOriginalFilename();
+             saveFile[i] = new File(projectPath, fileName[i]);
+
+            file[i].transferTo(saveFile[i]);
+
+        }
 
 
-        String fileName = uuid + "_" + file.getOriginalFilename();
-        File saveFile = new File(projectPath, fileName);
-
-        file.transferTo(saveFile);
 
 
         Member member = memberRepository.findByemail(boardsaverequest.getEmail());
@@ -156,7 +164,7 @@ public class BoardService {
     public byte[] downloadImageFromFileSystem(String fileName) throws IOException {
         Board board = boardRepository.findByfilename(fileName);
 
-        String name = board.getFilename();
+        String []name = board.getFilename();
         String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files\\" + name;
 
         System.out.println("download filePath: {}" + projectPath);

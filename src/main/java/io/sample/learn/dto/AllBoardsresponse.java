@@ -22,22 +22,38 @@ public class AllBoardsresponse {
     private String description;
 
     private String filepath;
-    private String filename;
+    private String[] filename;
 
     private Long price;
     private String owneremail;
     private LocalDateTime createdDate;
 
-    private  File file;
-    private  MultipartFile multipartFile;
+    private File[] file;
 
-    public File getFile() {
-        return new File(filepath, filename);
+//    private  MultipartFile multipartFile;
+
+    public File[] getFile() {
+
+        File[] files = new File[filename.length];
+
+        for (int i = 0; i < filename.length; i++) {
+            files[i] = new File(filepath, filename[i]);
+        }
+
+        return files;
+
     }
 
 
     public static AllBoardsresponse from(Board board) {
-        File getFile= new File(board.getFilepath(),board.getFilename());
+        int size = board.getFilename().length;
+
+        File[] getFile=new File[size];
+        String[] filenames = new String[board.getFilename().length];
+        filenames = board.getFilename();
+
+        for (int i = 0; i < size; i++)
+            getFile[i] = new File(board.getFilepath(), filenames[i]);
 
         return AllBoardsresponse.builder()
                 .id(board.getId())
@@ -48,7 +64,7 @@ public class AllBoardsresponse {
                 .owneremail(board.getOwneremail())
                 .createdDate(board.getCreatedDate())
                 .filename(board.getFilename())
-                 .build();
+                .build();
 
     }
 }

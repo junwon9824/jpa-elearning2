@@ -68,7 +68,7 @@ public class UserService {
         return boardRepository.findAll().stream()
                 .map(file -> {
                     AllBoardsresponse allBoardsresponse = AllBoardsresponse.from(file);
-                    File getFile = allBoardsresponse.getFile();
+                    File[] getFile = allBoardsresponse.getFile();
                     allBoardsresponse.setFile(getFile);
 
                     return allBoardsresponse;

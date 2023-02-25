@@ -64,8 +64,8 @@ public class BoardController {
     String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
 
 
-//    @GetMapping("/user/fileSystem/{fileName}")
-    @GetMapping("/user/fileimg")
+
+     @GetMapping("/user/fileimg")
 //    public ResponseEntity<?> downloadImageToFileSystem(@PathVariable("fileName") String fileName) throws IOException {
     public ResponseEntity<?> downloadImageToFileSystem(@RequestParam String fileName) throws IOException {
         byte[] downloadImage = boardService.downloadImageFromFileSystem(fileName);
@@ -73,6 +73,8 @@ public class BoardController {
                 .contentType(MediaType.valueOf("image/png"))
                 .body(downloadImage);
     }
+
+
 
 
 }
