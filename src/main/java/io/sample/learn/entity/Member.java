@@ -39,8 +39,9 @@ public class Member extends BaseTimeEntity {
     private List<Roles> roles = new ArrayList<>();
 
 
-    @OneToMany(mappedBy = "member")
-    private List<BuyBoard> files = new ArrayList<>();
+    @OneToMany(mappedBy = "member",cascade = CascadeType.ALL)
+    private List<BuyBoard> boughtfiles = new ArrayList<>();
+
 
 
     private String[] madefiles ;
@@ -51,10 +52,10 @@ public class Member extends BaseTimeEntity {
         role.forEach(o -> o.setMember(this));
     }
 
-
-    public void setFile(List<BuyBoard> files) {
-        this.files = files;
-    }
+//
+//    public void setFile(List<BuyBoard> boughtfiles) {
+//        this.boughtfiles = boughtfiles;
+//    }
 
 
     public void setPassword(String pwd) {

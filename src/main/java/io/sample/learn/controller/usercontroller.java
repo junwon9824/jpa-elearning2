@@ -3,6 +3,7 @@ package io.sample.learn.controller;
 import io.sample.learn.dto.AllBoardsresponse;
 import io.sample.learn.dto.Boardsaverequest;
 import io.sample.learn.dto.addpointrequest;
+import io.sample.learn.dto.showboughtfilesresponse;
 import io.sample.learn.service.BoardService;
 import io.sample.learn.service.UserService;
 
@@ -22,8 +23,9 @@ public class usercontroller {
     private final UserService userService;
 
     private final BoardService boardService;
+
     @GetMapping(value = "/user/boughtfiles")
-    public ResponseEntity<List<Boardsaverequest>> showboughtfiles(@RequestParam String email) {
+    public ResponseEntity<List<showboughtfilesresponse>> showboughtfiles(@RequestParam String email) {
         return new ResponseEntity<>(userService.showboughtfiles(email), HttpStatus.OK);
     }
 

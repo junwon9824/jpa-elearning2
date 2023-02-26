@@ -4,7 +4,7 @@ package io.sample.learn.service;
 
 //import io.sample.learn.entity.Role;
 
-import io.sample.learn.dto.AllBoardsresponse;
+import io.sample.learn.dto.*;
 import io.sample.learn.dto.Boardsaverequest;
 import io.sample.learn.dto.addpointrequest;
 import io.sample.learn.entity.Board;
@@ -44,13 +44,13 @@ public class UserService {
     private final MemberRepository memberRepository;
     private final BoardRepository boardRepository;
 
-    public List<Boardsaverequest> showboughtfiles(String email) {
+    public List<showboughtfilesresponse> showboughtfiles(String email) {
         Member member = memberRepository.findByemail(email);
 
-        List<BuyBoard> list = member.getFiles();
+        List<BuyBoard> list = member.getBoughtfiles();
 
         return list.stream()
-                .map(buyFiles -> Boardsaverequest.toFilesaverequest(buyFiles.getBoard()))
+                .map(buyBoard -> showboughtfilesresponse.from( buyBoard))
                 .collect(Collectors.toList());
 
 

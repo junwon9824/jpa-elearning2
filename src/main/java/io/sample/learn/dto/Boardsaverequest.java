@@ -38,7 +38,7 @@ public class Boardsaverequest {
         this.filepath = file.getFilepath();
         this.price = file.getPrice();
         this.email = file.getOwneremail();
-        this.members=file.getMembers();
+        this.members=file.getCustomers();
     }
 
     public static Boardsaverequest toFilesaverequest(Board file ) {
@@ -51,7 +51,7 @@ public class Boardsaverequest {
                 .owneremail(this.email)
                 .price(this.price)
                 .description(this.description)
-                .members(this.members)
+                .customers(this.members)
                 .build();
     }
 
