@@ -4,7 +4,9 @@ import io.sample.learn.BaseTimeEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.*;
 
 @Entity
@@ -41,7 +43,7 @@ public class Member extends BaseTimeEntity {
     private List<BuyBoard> files = new ArrayList<>();
 
 
-    private List<Long> madefiles = new ArrayList<>();
+    private String[] madefiles ;
 
 
     public void setRoles(List<Roles> role) {

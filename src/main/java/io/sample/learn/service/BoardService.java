@@ -72,70 +72,69 @@ public class BoardService {
         System.out.println("title" + boardsaverequest.getTitle());
         System.out.println("email owner" + boardsaverequest.getEmail());
         String[] fileName = new String[file.length];
-        File[] saveFile=new File[file.length];
+        File[] saveFile = new File[file.length];
 
         for (int i = 0; i < file.length; i++) {
-            fileName[i] =uuid + "_" + file[i].getOriginalFilename();
-             saveFile[i] = new File(projectPath, fileName[i]);
+            fileName[i] = uuid + "_" + file[i].getOriginalFilename();
+            saveFile[i] = new File(projectPath, fileName[i]);
 
             file[i].transferTo(saveFile[i]);
 
         }
 
 
-
-
         Member member = memberRepository.findByemail(boardsaverequest.getEmail());
 
+             member.setMadefiles(fileName);
 
-        Board board = (Board.builder()
-                .description(boardsaverequest.getDescription())
-                .filepath(boardsaverequest.getFilepath())
-                .title(boardsaverequest.getTitle())
-                .price(boardsaverequest.getPrice())
-                .owneremail(member.getEmail())
-                .filename(fileName)
-                .filepath("/files/" + fileName)
-                .build());
-
-
-        boardRepository.save(board);
-
-        return "file uploaded successfully! filePath : " + boardsaverequest.getTitle();
+            Board board = (Board.builder()
+                    .description(boardsaverequest.getDescription())
+                    .filepath(boardsaverequest.getFilepath())
+                    .title(boardsaverequest.getTitle())
+                    .price(boardsaverequest.getPrice())
+                    .owneremail(member.getEmail())
+                    .filename(fileName)
+                    .filepath("/files/" + fileName)
+                    .build());
 
 
-    }
+            boardRepository.save(board);
 
-    public String buy(Boardbuyrequest boardbuyrequest) {
+            return "file uploaded successfully! filePath : " + boardsaverequest.getTitle();
 
-        Board board = boardRepository.findBytitle(boardbuyrequest.getFiletext());
-
-        Member member = memberRepository.findByemail(boardbuyrequest.getEmail());
-
-
-        System.out.println("member money" + member.getPoint());
-        System.out.println("file money" + board.getPrice());
-
-
-        if (board.getPrice() > member.getPoint()) {
-            throw new IllegalArgumentException("잔액이 부족합니다..");
 
         }
 
+        public String buy (Boardbuyrequest boardbuyrequest){
 
-        buyBoardRepository.save(BuyBoard.builder()
-                .board(board)
-                .member(member)
+            Board board = boardRepository.findBytitle(boardbuyrequest.getFiletext());
 
-                .build());
-
-        member.setPoint(member.getPoint() - board.getPrice());
+            Member member = memberRepository.findByemail(boardbuyrequest.getEmail());
 
 
-        return member.getAccount() + " 님이" + board.getTitle() + " 을(를) 성공적으로 구매 하였습니다.";
+            System.out.println("member money" + member.getPoint());
+            System.out.println("file money" + board.getPrice());
 
 
-    }
+            if (board.getPrice() > member.getPoint()) {
+                throw new IllegalArgumentException("잔액이 부족합니다..");
+
+            }
+
+
+            buyBoardRepository.save(BuyBoard.builder()
+                    .board(board)
+                    .member(member)
+
+                    .build());
+
+            member.setPoint(member.getPoint() - board.getPrice());
+
+
+            return member.getAccount() + " 님이" + board.getTitle() + " 을(를) 성공적으로 구매 하였습니다.";
+
+
+        }
 
 
 //
@@ -161,15 +160,15 @@ public class BoardService {
 //    }
 
 
-    public byte[] downloadImageFromFileSystem(String fileName) throws IOException {
-        Board board = boardRepository.findByfilename(fileName);
+        public byte[] downloadImageFromFileSystem (String fileName) throws IOException {
+            Board board = boardRepository.findByfilename(fileName);
 
-        String []name = board.getFilename();
-        String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files\\" + name;
+            String[] name = board.getFilename();
+            String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files\\" + name;
 
-        System.out.println("download filePath: {}" + projectPath);
+            System.out.println("download filePath: {}" + projectPath);
 
-        return Files.readAllBytes(new File(projectPath).toPath());
+            return Files.readAllBytes(new File(projectPath).toPath());
+        }
+
     }
-
-}

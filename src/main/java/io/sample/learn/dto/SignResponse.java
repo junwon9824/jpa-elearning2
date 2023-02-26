@@ -31,6 +31,8 @@ public class SignResponse {
 //    private String token;
     private Long point;
 
+    private String[] madefiles;
+
     public SignResponse(Member member) {
         this.id = member.getId();
         this.account = member.getAccount();
@@ -39,5 +41,6 @@ public class SignResponse {
         this.email = member.getEmail();
         this.roles = member.getRoles();
         this.point=member.getPoint();
+        this.madefiles=member.getMadefiles();
     }
 }
