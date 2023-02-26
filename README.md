@@ -101,7 +101,7 @@ request parameter : string password
 
  ## /user/get
   RequestParam String account
-![image](https://user-images.githubusercontent.com/42957005/217708023-8ebdd491-12d2-42a8-a27f-e71729b010b5.png)
+![image](https://user-images.githubusercontent.com/42957005/221413882-38835e3b-7dbe-46f1-8b99-a8e705dcdfcb.png)
 </details>
  
 
@@ -115,8 +115,7 @@ request parameter : string password
 
  ## /user/toadmin
   RequestParam String email
-![image](https://user-images.githubusercontent.com/42957005/215476467-ef885108-a6fb-47cc-b703-530ab0e6579d.png)
-
+![image](https://user-images.githubusercontent.com/42957005/221413853-6a6772f1-84a4-4aee-80f1-d865cef93f8e.png)
 </details>
  
 
@@ -128,8 +127,7 @@ request parameter : string password
 
  ## /user/admin/get
   RequestParam : String account
-![image](https://user-images.githubusercontent.com/42957005/215477090-ca3966ea-304b-4caf-9586-fc2d68f80609.png)
-
+![image](https://user-images.githubusercontent.com/42957005/221413809-998f7fe1-3efe-4a9a-9eb4-d698c3cff0a1.png)
 </details>
 
 
@@ -138,19 +136,17 @@ request parameter : string password
  <details markdown="1">
 <summary> 포인트 추가하기 </summary>
  
-  ![image](https://user-images.githubusercontent.com/42957005/217707617-98c4920d-be7a-498f-b971-19abfd4914d0.png)
-</details>
+![image](https://user-images.githubusercontent.com/42957005/221413725-127f4593-bde5-4b90-b8de-b3f679b823c7.png)
 
 
 
 
 
-
-# file
-
+# board
+file 은 board 정보의 일부분이다.
 
  <details markdown="1">
-<summary> 파일 생성 </summary>
+<summary> board 생성 </summary>
  
 ### post 방식
 ##  /user/save/file
@@ -167,14 +163,11 @@ request parameter : string password
     
 </details>
 
-
-
-
-
+ 
 
 
  <details markdown="1">
-<summary> 구매한 파일 </summary>
+<summary> 구매한 board </summary>
  
 ### get 방식
 ## /user/boughtfiles
@@ -185,10 +178,10 @@ RequestParam String email
 
 
  <details markdown="1">
-<summary> 파일 구매 </summary>
+<summary> board 구매 </summary>
  
 ### post 방식
-##  /user/buy/file
+##  /user/buy/board
   
      @RequestBody  
      
@@ -196,8 +189,72 @@ RequestParam String email
       String email;
       String filetext;
 
-만약 사용자의 돈이 부족하면 파일 구매할수 없다
+만약 사용자의 돈이 부족하면 board 구매할수 없다
     
 </details>
 
+
+
+
+
+ <details markdown="1">
+<summary> filetitle 을 keyword 을 이용해 검색 </summary>
+ 
+### get 방식
+##  /user/searchfiles
+  
+     @RequestParam  
+   
+      String searchkeyword 
+   
+
+     
+</details>
+
+
+
+ <details markdown="1">
+<summary>board 삭제 </summary>
+ 
+### delete 방식
+##  /user/deleteboard
+  
+     @RequestParam  
+   
+      String title 
+    
+</details>
+
+
+
+
+
+ <details markdown="1">
+<summary>image 파일 보기 </summary>
+ 
+### get 방식
+##  /user/fileimg
+  
+     @RequestParam  
+   
+      String title 
+      String filename
+    
+</details>
+
+
+
+
+ <details markdown="1">
+<summary>video 파일 보기 </summary>
+ 
+### get 방식
+##  /user/filevid
+  
+     @RequestParam  
+   
+      String title 
+      String filename
+    
+</details>
 
