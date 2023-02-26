@@ -35,33 +35,6 @@ public class BoardService {
 
     private final BuyBoardRepository buyBoardRepository;
 
-//
-//    @Transactional
-//    public String save(Filesaverequest filesaverequest) {
-//
-//        Member member = memberRepository.findByemail(filesaverequest.getEmail());
-//
-//        System.out.println("email owner" + filesaverequest.getEmail());
-//        System.out.println("meber info" + member.getNickname());
-//
-//
-//        File file = (File.builder()
-//                .description(filesaverequest.getDescription())
-//                .filepath(filesaverequest.getFilepath())
-//                .title(filesaverequest.getTitle())
-//                .price(filesaverequest.getPrice())
-//                .owneremail(member.getEmail())
-//                .build());
-//
-//        file.setimgs(Collections.singletonList(Image.builder().imagename(filesaverequest.getImgname()).build()));
-//
-//
-//        fileRepository.save(file);
-//        return "file uploaded successfully! filePath : " + filesaverequest.getTitle();
-//
-//
-//    }
-
     public String write(Boardsaverequest boardsaverequest) throws Exception {
 
         String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
@@ -100,7 +73,7 @@ public class BoardService {
 
             boardRepository.save(board);
 
-            return "file uploaded successfully! filePath : " + boardsaverequest.getTitle();
+            return "file uploaded successfully! filetitle : " + boardsaverequest.getTitle();
 
 
         }
@@ -150,25 +123,24 @@ public class BoardService {
 //
 //    }
 
+    public byte[] downloadFromFileSystem (String title,String filename) throws IOException {
+        Board board = boardRepository.findBytitle(title);
 
-//
-//    public String findimagename(String title) throws IOException {
-//        Board board = boardRepository.findBytitle(title);
-//        String imagename;
-//        imagename = board.getFilename();
-//        return imagename;
-//    }
-
-
-        public byte[] downloadImageFromFileSystem (String fileName) throws IOException {
-            Board board = boardRepository.findByfilename(fileName);
-
-            String[] name = board.getFilename();
-            String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files\\" + name;
-
-            System.out.println("download filePath: {}" + projectPath);
-
-            return Files.readAllBytes(new File(projectPath).toPath());
+        String[] name = board.getFilename();
+        String res=null;
+        for(int i=0;i<board.getFilename().length;i++)
+        {
+            if(filename.equals(name[i])){
+                res=name[i];
+            }
         }
+
+        String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files\\" + res;
+
+        System.out.println("download filePath: {}" + projectPath);
+
+        return Files.readAllBytes(new File(projectPath).toPath());
+    }
+
 
     }
