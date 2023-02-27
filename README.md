@@ -12,7 +12,7 @@
  
  JAVA 17
  
- 10.7.3-MariaDB
+ 
  
  # api 명세
  
