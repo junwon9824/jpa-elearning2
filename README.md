@@ -6,7 +6,7 @@
  ## 개발환경
  JPA
  
- MYSQL
+ MYSQL 8.0.28
  
  SPRINGBOOT 
  
