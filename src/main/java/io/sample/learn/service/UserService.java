@@ -2,90 +2,80 @@ package io.sample.learn.service;
 
 //import io.sample.learn.dto.userdto;
 
-import io.sample.learn.dto.SignUpDto;
-import io.sample.learn.dto.userSaveRequestdto;
-import io.sample.learn.dto.userSaveResponsedto;
-import io.sample.learn.dto.userUpdateRequestdto;
 //import io.sample.learn.entity.Role;
-import io.sample.learn.entity.User;
+
+import io.sample.learn.dto.*;
+import io.sample.learn.dto.Boardsaverequest;
+import io.sample.learn.dto.addpointrequest;
+import io.sample.learn.entity.Board;
+import io.sample.learn.entity.BuyBoard;
+import io.sample.learn.entity.Member;
 //import io.sample.learn.repository.RoleRepository;
-import io.sample.learn.repository.UserRepository;
+import io.sample.learn.repository.BoardRepository;
+import io.sample.learn.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 //import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
 @Service
+@Transactional
+
 @RequiredArgsConstructor
-public class UserService     {
-    private final UserRepository userRepository;
+public class UserService {
+    private final MemberRepository memberRepository;
+    private final BoardRepository boardRepository;
 
-//    private final RoleRepository roleRepository;
+    public List<showboughtfilesresponse> showboughtfiles(String email) {
+        Member member = memberRepository.findByemail(email);
 
+        List<BuyBoard> list = member.getBoughtfiles();
 
-    private final PasswordEncoder passwordEncoder;
-
-
-    public User findById(Long id) {
-        return userRepository.findById(id).get();
-    }
-
-
-    @Transactional
-    public Long save(userSaveResponsedto dto) {
-        return userRepository.save(User.builder()
-                .name(dto.getName())
-                .age(dto.getAge())
-                .email(dto.getEmail())
-                .password(dto.getPassword())
-//                .role(dto.getRole())
-                .build()).getId();
-
-    }
-
-
-    @Transactional
-    public long update(Long id, userUpdateRequestdto dto) {
-        User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당사람이 없습니다"));
-
-//        user.update(dto.getName(), dto.getAge(), dto.getEmail(), dto.getPassword(),dto.getRole());
-        user.update(dto.getName(), dto.getAge(), dto.getEmail(), dto.getPassword());
-
-        return id;
-    }
-
-
-    public List<userSaveResponsedto> findusers() {
-        return userRepository.findAll().stream()
-                .map(user -> userSaveResponsedto.from(user))
+        return list.stream()
+                .map(buyBoard -> showboughtfilesresponse.from( buyBoard))
                 .collect(Collectors.toList());
 
 
     }
 
-    @Transactional
-    public Long delete(Long id) {
+    public String addpoint(addpointrequest addpointrequest2) {
+        Member member = memberRepository.findByemail(addpointrequest2.getEmail());
 
-        User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("user doesn't exist"));
+        member.setPoint(member.getPoint() + addpointrequest2.getPoint());
 
-        userRepository.delete(user);
-        return user.getId();
+        return member.getAccount() + "님의 잔액은" + member.getPoint() + " 입니다";
     }
 
+    public List<AllBoardsresponse> showallfiles() {
+        return boardRepository.findAll().stream()
+                .map(file -> {
+                    AllBoardsresponse allBoardsresponse = AllBoardsresponse.from(file);
+                    File[] getFile = allBoardsresponse.getFile();
+                    allBoardsresponse.setFile(getFile);
+
+                    return allBoardsresponse;
+                })
+                .collect(Collectors.toList());
+
+    }
 
 
 }
