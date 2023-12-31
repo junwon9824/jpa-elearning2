@@ -1,11 +1,10 @@
 package io.sample.learn.entity;
 
 import io.sample.learn.BaseTimeEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -13,7 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Board extends BaseTimeEntity {
+public class File extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType .IDENTITY)
@@ -26,11 +25,12 @@ public class Board extends BaseTimeEntity {
     private String filepath;
     private String owneremail;
 
-    public String[] getFilenames() {
+    @OneToMany(mappedBy = "file")
+    private List<Buyfile> customers;
 
-    }
 
-    public void addcustomer(BuyBoard buyBoard) {
+    public void addcustomer(Buyfile buyfile) {
+
     }
 
     // 기타 필요한 필드들 추가

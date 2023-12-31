@@ -5,13 +5,13 @@ package io.sample.learn.service;
 //import io.sample.learn.entity.Role;
 
 import io.sample.learn.dto.*;
-import io.sample.learn.dto.Boardsaverequest;
+import io.sample.learn.dto.filesaverequest;
 import io.sample.learn.dto.addpointrequest;
-import io.sample.learn.entity.Board;
-import io.sample.learn.entity.BuyBoard;
+import io.sample.learn.entity.file;
+import io.sample.learn.entity.Buyfile;
 import io.sample.learn.entity.Member;
 //import io.sample.learn.repository.RoleRepository;
-import io.sample.learn.repository.BoardRepository;
+import io.sample.learn.repository.fileRepository;
 import io.sample.learn.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -42,15 +42,15 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserService {
     private final MemberRepository memberRepository;
-    private final BoardRepository boardRepository;
+    private final fileRepository fileRepository;
 
     public List<showboughtfilesresponse> showboughtfiles(String email) {
         Member member = memberRepository.findByemail(email);
 
-        List<BuyBoard> list = member.getBoughtfiles();
+        List<Buyfile> list = member.getBoughtfiles();
 
         return list.stream()
-                .map(buyBoard -> showboughtfilesresponse.from( buyBoard))
+                .map(buyfile -> showboughtfilesresponse.from( buyfile))
                 .collect(Collectors.toList());
 
 
@@ -64,14 +64,14 @@ public class UserService {
         return member.getAccount() + "님의 잔액은" + member.getPoint() + " 입니다";
     }
 
-    public List<AllBoardsresponse> showallfiles() {
-        return boardRepository.findAll().stream()
+    public List<Allfilesresponse> showallfiles() {
+        return fileRepository.findAll().stream()
                 .map(file -> {
-                    AllBoardsresponse allBoardsresponse = AllBoardsresponse.from(file);
-                    File[] getFile = allBoardsresponse.getFile();
-                    allBoardsresponse.setFile(getFile);
+                    Allfilesresponse allfilesresponse = Allfilesresponse.from(file);
+                    File[] getFile = allfilesresponse.getFile();
+                    allfilesresponse.setFile(getFile);
 
-                    return allBoardsresponse;
+                    return allfilesresponse;
                 })
                 .collect(Collectors.toList());
 

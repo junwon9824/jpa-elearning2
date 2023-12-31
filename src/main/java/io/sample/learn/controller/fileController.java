@@ -1,10 +1,10 @@
 package io.sample.learn.controller;
 
 
-import io.sample.learn.dto.AllBoardsresponse;
-import io.sample.learn.dto.Boardbuyrequest;
-import io.sample.learn.dto.Boardsaverequest;
-import io.sample.learn.entity.Board;
+import io.sample.learn.dto.Allfilesresponse;
+import io.sample.learn.dto.filebuyrequest;
+import io.sample.learn.dto.filesaverequest;
+ import io.sample.learn.service.Fileservice;
 import io.sample.learn.service.SignService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -16,8 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import io.sample.learn.service.BoardService;
-import org.springframework.web.multipart.MultipartFile;
+ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -27,44 +26,44 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-public class BoardController {
-    private final BoardService boardService;
+public class fileController {
+    private final Fileservice fileService;
     private final SignService signService;
 
     @PostMapping(value = "/user/save/file")
-//    public ResponseEntity<String> save( Boardsaverequest boardsaverequest , MultipartFile multipartFile) throws Exception {
-    public ResponseEntity<String> save(@ModelAttribute Boardsaverequest boardsaverequest) throws Exception {
-        return new ResponseEntity<>(boardService.write(boardsaverequest), HttpStatus.OK);
+//    public ResponseEntity<String> save( filesaverequest filesaverequest , MultipartFile multipartFile) throws Exception {
+    public ResponseEntity<String> save(@ModelAttribute filesaverequest filesaverequest) throws Exception {
+        return new ResponseEntity<>(fileService.write(filesaverequest), HttpStatus.OK);
 
 
     }
 
 
-    @PutMapping(value = "/user/buy/board")
-    public ResponseEntity<String> buy(@RequestBody Boardbuyrequest boardbuyrequest) {
-        return new ResponseEntity<>(boardService.buy(boardbuyrequest), HttpStatus.OK);
+    @PutMapping(value = "/user/buy/file")
+    public ResponseEntity<String> buy(@RequestBody filebuyrequest filebuyrequest) {
+        return new ResponseEntity<>(fileService.buy(filebuyrequest), HttpStatus.OK);
     }
 
 
     @GetMapping(value = "/user/searchfiles")
-    public ResponseEntity<List<AllBoardsresponse>> searchfiles(@PageableDefault(sort = "id",
+    public ResponseEntity<List<Allfilesresponse>> searchfiles(@PageableDefault(sort = "id",
             direction = Sort.Direction.DESC) Pageable pageable, @RequestParam String searchkeyword) {
 
-        List<AllBoardsresponse> searchlist = null;
+        List<Allfilesresponse> searchlist = null;
 
         if (searchkeyword == null)
             System.out.println("plese put keyword");
 
         else
-            searchlist = boardService.searchtext(searchkeyword, pageable);
+            searchlist = fileService.searchtext(searchkeyword, pageable);
 
 
         return new ResponseEntity<>(searchlist, HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "user/deleteboard")
-    public ResponseEntity<String> deleteboard(@RequestParam String title) {
-       return new ResponseEntity<>( boardService.deleteboard(title),HttpStatus.OK) ;
+    @DeleteMapping(value = "user/deletefile")
+    public ResponseEntity<String> deletefile(@RequestParam String title) {
+       return new ResponseEntity<>( fileService.deletefile(title),HttpStatus.OK) ;
 
 
     }
@@ -76,7 +75,7 @@ public class BoardController {
     @GetMapping("/user/fileimg")
 //    public ResponseEntity<?> downloadImageToFileSystem(@PathVariable("fileName") String fileName) throws IOException {
     public ResponseEntity<?> downloadImageToFileSystem(@RequestParam String title, @RequestParam String filename) throws IOException {
-        byte[] downloadImage = boardService.downloadFromFileSystem(title, filename);
+        byte[] downloadImage = fileService.downloadFromFileSystem(title, filename);
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.valueOf("image/png"))
                 .body(downloadImage);
@@ -84,7 +83,7 @@ public class BoardController {
 
     @GetMapping("/user/filevid")
     public ResponseEntity<?> downloadvidToFileSystem(@RequestParam String title, @RequestParam String filename) throws IOException {
-        byte[] downloadImage = boardService.downloadFromFileSystem(title, filename);
+        byte[] downloadImage = fileService.downloadFromFileSystem(title, filename);
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.valueOf("video/mp4"))
                 .body(downloadImage);

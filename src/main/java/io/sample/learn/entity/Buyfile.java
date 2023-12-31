@@ -11,7 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-public class BuyBoard {
+public class Buyfile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,14 +21,14 @@ public class BuyBoard {
     private Member member;
 
     @ManyToOne
-    @JoinColumn(name = "board_id")
-    private Board board;
+    @JoinColumn(name = "file_id")
+    private File file;
 
 
-    public BuyBoard(Member member, Board board)
+    public Buyfile(Member member, File file)
     {
         this.member=member;
-        this.board=board;
+        this.file=file;
 
     }
 

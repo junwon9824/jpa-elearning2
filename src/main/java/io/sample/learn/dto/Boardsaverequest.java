@@ -1,7 +1,7 @@
 package io.sample.learn.dto;
 
-import io.sample.learn.entity.Board;
-import io.sample.learn.entity.BuyBoard;
+import io.sample.learn.entity.File;
+ import io.sample.learn.entity.Buyfile;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,7 +15,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
-public class Boardsaverequest {
+public class filesaverequest {
 
     private Long id;
 
@@ -28,10 +28,10 @@ public class Boardsaverequest {
     private Long price;
     private String email;
 
-    private List<BuyBoard> members = new ArrayList<>();
+    private List<Buyfile> members = new ArrayList<>();
 
     private MultipartFile [] multipartFile;
-    public Boardsaverequest(Board file) {
+    public filesaverequest(File file) {
         this.id = file.getId();
         this.title = file.getTitle();
         this.description = file.getDescription();
@@ -41,12 +41,12 @@ public class Boardsaverequest {
         this.members=file.getCustomers();
     }
 
-    public static Boardsaverequest toFilesaverequest(Board file ) {
-        return new Boardsaverequest(file );
+    public static filesaverequest toFilesaverequest(File file ) {
+        return new filesaverequest(file );
     }
 
-    public Board toEntity() {
-        return Board.builder()
+    public File toEntity() {
+        return File.builder()
                 .title(this.title)
                 .owneremail(this.email)
                 .price(this.price)

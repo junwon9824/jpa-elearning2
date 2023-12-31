@@ -142,11 +142,11 @@ request parameter : string password
 
 
 
-# board
-file 은 board 정보의 일부분이다.
+# file
+file 은 file 정보의 일부분이다.
 
  <details markdown="1">
-<summary> board 생성 </summary>
+<summary> file 생성 </summary>
  
 ### post 방식
 ##  /user/save/file
@@ -167,7 +167,7 @@ file 은 board 정보의 일부분이다.
 
 
  <details markdown="1">
-<summary> 구매한 board </summary>
+<summary> 구매한 file </summary>
  
 ### get 방식
 ## /user/boughtfiles
@@ -178,10 +178,10 @@ RequestParam String email
 
 
  <details markdown="1">
-<summary> board 구매 </summary>
+<summary> file 구매 </summary>
  
 ### post 방식
-##  /user/buy/board
+##  /user/buy/file
   
      @RequestBody  
      
@@ -189,7 +189,7 @@ RequestParam String email
       String email;
       String filetext;
 
-만약 사용자의 돈이 부족하면 board 구매할수 없다
+만약 사용자의 돈이 부족하면 file 구매할수 없다
     
 </details>
 
@@ -214,10 +214,10 @@ RequestParam String email
 
 
  <details markdown="1">
-<summary>board 삭제 </summary>
+<summary>file 삭제 </summary>
  
 ### delete 방식
-##  /user/deleteboard
+##  /user/deletefile
   
      @RequestParam  
    

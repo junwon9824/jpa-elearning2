@@ -40,7 +40,7 @@ public class Member extends BaseTimeEntity {
 
 
     @OneToMany(mappedBy = "member",cascade = CascadeType.ALL)
-    private List<BuyBoard> boughtfiles = new ArrayList<>();
+    private List<Buyfile> boughtfiles = new ArrayList<>();
 
 
 
@@ -53,7 +53,7 @@ public class Member extends BaseTimeEntity {
     }
 
 //
-//    public void setFile(List<BuyBoard> boughtfiles) {
+//    public void setFile(List<Buyfile> boughtfiles) {
 //        this.boughtfiles = boughtfiles;
 //    }
 
