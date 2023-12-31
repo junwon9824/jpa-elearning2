@@ -8,8 +8,10 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.*;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -26,6 +28,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +36,7 @@ import java.util.Map;
 @Configuration
 @RequiredArgsConstructor
 @EnableWebSecurity
+@Slf4j
 public class SecurityConfig {
     private final MemberRepository memberRepository;
 
@@ -103,40 +107,21 @@ public class SecurityConfig {
                         response.getWriter().write("권한이 없는 사용자입니다.");
                     }
                 })
-                .authenticationEntryPoint(new AuthenticationEntryPoint() {
-                    @Override
-                    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-                        // 인증문제가 발생했을 때 이 부분을 호출한다.
+                .authenticationEntryPoint((request, response, authException) -> {
+                    ExceptionResponse exceptionResponse =
+                            new ExceptionResponse(HttpStatus.UNAUTHORIZED.value(), "UnAuthorized!!!", null);
 
+                    log.error("UnAuthorized!!! message: " + authException.getMessage());
 
+                    response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+                    response.setStatus(HttpStatus.UNAUTHORIZED.value());
 
-
-                        if(response.getStatus()==500)
-                        {
-                             response.setCharacterEncoding("utf-8");
-                            response.setContentType("text/html; charset=UTF-8");
-
-                            response.getWriter().write(" 콘솔창을 통해 에러 내용을 확인해주세요.");
-
-                        }
-                        else
-                        {
-
-
-                            response.setStatus(401);
-
-
-                            response.setCharacterEncoding("utf-8");
-                            response.setContentType("text/html; charset=UTF-8");
-
-
-                            response.getWriter().write("error! 잘못된 토큰일수도 있습니다. 콘솔창을 통해 에러 내용을 확인해주세요");
-
-
-                        }
-
-
-
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    try (OutputStream os = response.getOutputStream()) {
+                        objectMapper.writeValue(os, exceptionResponse);
+                        os.flush();
+                    } catch (IOException e) {
+                        log.error("IOException while writing response: {}", e.getMessage());
                     }
                 });
 

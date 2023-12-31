@@ -25,12 +25,4 @@ public class Buyfile {
     private File file;
 
 
-    public Buyfile(Member member, File file)
-    {
-        this.member=member;
-        this.file=file;
-
-    }
-
-
 }

@@ -43,7 +43,6 @@ public class Member extends BaseTimeEntity {
     private List<Buyfile> boughtfiles = new ArrayList<>();
 
 
-
     private String[] madefiles ;
 
 

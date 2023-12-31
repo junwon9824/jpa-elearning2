@@ -17,6 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 public class filesaverequest {
 
+
     private Long id;
 
     private String title;
@@ -27,6 +28,7 @@ public class filesaverequest {
 
     private Long price;
     private String email;
+
 
     private List<Buyfile> members = new ArrayList<>();
 

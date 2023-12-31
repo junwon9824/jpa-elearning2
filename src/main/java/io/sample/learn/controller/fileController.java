@@ -71,22 +71,22 @@ public class fileController {
 
     String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
 
-
-    @GetMapping("/user/fileimg")
-//    public ResponseEntity<?> downloadImageToFileSystem(@PathVariable("fileName") String fileName) throws IOException {
-    public ResponseEntity<?> downloadImageToFileSystem(@RequestParam String title, @RequestParam String filename) throws IOException {
-        byte[] downloadImage = fileService.downloadFromFileSystem(title, filename);
-        return ResponseEntity.status(HttpStatus.OK)
-                .contentType(MediaType.valueOf("image/png"))
-                .body(downloadImage);
-    }
-
-    @GetMapping("/user/filevid")
-    public ResponseEntity<?> downloadvidToFileSystem(@RequestParam String title, @RequestParam String filename) throws IOException {
-        byte[] downloadImage = fileService.downloadFromFileSystem(title, filename);
-        return ResponseEntity.status(HttpStatus.OK)
-                .contentType(MediaType.valueOf("video/mp4"))
-                .body(downloadImage);
-    }
+//
+//    @GetMapping("/user/fileimg")
+////    public ResponseEntity<?> downloadImageToFileSystem(@PathVariable("fileName") String fileName) throws IOException {
+//    public ResponseEntity<?> downloadImageToFileSystem(@RequestParam String title, @RequestParam String filename) throws IOException {
+//        byte[] downloadImage = fileService.downloadFromFileSystem(title, filename);
+//        return ResponseEntity.status(HttpStatus.OK)
+//                .contentType(MediaType.valueOf("image/png"))
+//                .body(downloadImage);
+//    }
+//
+//    @GetMapping("/user/filevid")
+//    public ResponseEntity<?> downloadvidToFileSystem(@RequestParam String title, @RequestParam String filename) throws IOException {
+//        byte[] downloadImage = fileService.downloadFromFileSystem(title, filename);
+//        return ResponseEntity.status(HttpStatus.OK)
+//                .contentType(MediaType.valueOf("video/mp4"))
+//                .body(downloadImage);
+//    }
 
 }

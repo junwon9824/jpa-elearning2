@@ -11,7 +11,7 @@ import io.sample.learn.dto.addpointrequest;
 import io.sample.learn.entity.Buyfile;
 import io.sample.learn.entity.Member;
 //import io.sample.learn.repository.RoleRepository;
-import io.sample.learn.repository.fileRepository;
+import io.sample.learn.repository.FileRepository;
 import io.sample.learn.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +42,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserService {
     private final MemberRepository memberRepository;
-    private final fileRepository fileRepository;
+    private final FileRepository fileRepository;
 
     public List<showboughtfilesresponse> showboughtfiles(String email) {
         Member member = memberRepository.findByemail(email);

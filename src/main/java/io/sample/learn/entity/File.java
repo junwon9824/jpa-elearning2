@@ -30,9 +30,6 @@ public class File extends BaseTimeEntity {
     private List<Buyfile> customers=new ArrayList<>();
 
 
-    public void addcustomer(Buyfile buyfile) {
-
-    }
 
     // 기타 필요한 필드들 추가
 

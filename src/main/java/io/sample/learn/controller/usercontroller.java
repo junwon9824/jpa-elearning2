@@ -4,7 +4,7 @@ import io.sample.learn.dto.Allfilesresponse;
 import io.sample.learn.dto.filesaverequest;
 import io.sample.learn.dto.addpointrequest;
 import io.sample.learn.dto.showboughtfilesresponse;
-import io.sample.learn.service.fileService;
+import io.sample.learn.service.Fileservice;
 import io.sample.learn.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ public class usercontroller {
 
     private final UserService userService;
 
-    private final fileService fileService;
+    private final Fileservice fileService;
 
     @GetMapping(value = "/user/boughtfiles")
     public ResponseEntity<List<showboughtfilesresponse>> showboughtfiles(@RequestParam String email) {

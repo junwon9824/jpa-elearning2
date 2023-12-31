@@ -4,8 +4,8 @@ import io.sample.learn.dto.Allfilesresponse;
 import io.sample.learn.dto.filebuyrequest;
 import io.sample.learn.dto.filesaverequest;
 import io.sample.learn.entity.Member;
-import io.sample.learn.repository.fileRepository;
-import io.sample.learn.repository.BuyfileRepository;
+import io.sample.learn.repository.BuyFileRepository;
+import io.sample.learn.repository.FileRepository;
 import io.sample.learn.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -36,10 +36,10 @@ import java.util.stream.Collectors;
 @Transactional
 
 public class Fileservice {
-    private final fileRepository fileRepository;
+    private final FileRepository fileRepository;
     private final MemberRepository memberRepository;
 
-    private final BuyfileRepository buyfileRepository;
+    private final BuyFileRepository buyfileRepository;
 
     public String write(filesaverequest filesaverequest) throws Exception {
 
@@ -93,45 +93,29 @@ public class Fileservice {
 
         if (member.getEmail().equals(file.getOwneremail())) {
             return "you can't buy your own file";
-
         } else {
-
 
             System.out.println("member money" + member.getPoint());
             System.out.println("file money" + file.getPrice());
 
-
             if (file.getPrice() > member.getPoint()) {
                 throw new IllegalArgumentException("not enough money..");
-
             }
-
             Buyfile buyfile = Buyfile.builder()
                     .file(file)
                     .member(member)
                     .build();
 
-            Optional<Buyfile> tmp = buyfileRepository.findBymemberAndfile(member, file); ///////////////////////
-
-
+            Optional<Buyfile> tmp = buyfileRepository.findByMemberAndFile(member, file); ///////////////////////
 
             if (tmp.isEmpty()) {
-
-
                 buyfileRepository.save(buyfile);
-
                 member.setPoint(member.getPoint() - file.getPrice());
-
-                file.addcustomer(buyfile);
-
                 return member.getAccount() + " 님이" + file.getTitle() + " 을(를) 성공적으로 구매 하였습니다.";
-
             }
 
             return "you already bought this file";
-
         }
-
     }
 
 
@@ -139,13 +123,10 @@ public class Fileservice {
         List<Allfilesresponse> plist = fileRepository.findBytitleContaining(searchkeyword).stream()
                 .map(file -> Allfilesresponse.from(file))
                 .collect(Collectors.toList());
-
-
 //
 //       return fileRepository.findBytitleContaining(searchkeyword, pageable).stream()
 //                .map(file -> Allfilesresponse.from(file))
 //                .collect(Collectors.toList());
-
         return plist;
 
     }

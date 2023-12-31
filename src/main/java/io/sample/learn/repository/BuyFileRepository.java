@@ -11,9 +11,9 @@ import java.util.Optional;
 
 @Transactional
 
-public interface BuyfileRepository extends JpaRepository<Buyfile, Long> {
+public interface BuyFileRepository extends JpaRepository<Buyfile, Long> {
 
     Buyfile findBymember(Member member);
 
-    Optional<Buyfile> findBymemberAndfile(Member member, File file);
+    Optional<Buyfile> findByMemberAndFile(Member member, File file);
 }

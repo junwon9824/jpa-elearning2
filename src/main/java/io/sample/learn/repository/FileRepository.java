@@ -11,11 +11,7 @@ import java.util.Optional;
 
 @Transactional
 
-public interface fileRepository extends JpaRepository<File, Long> {
-
-    Buyfile findBymember(Member member);
-
-    Optional<Buyfile> findBymemberAndfile(Member member, File file);
+public interface FileRepository extends JpaRepository<File, Long> {
 
     Optional<File> findBytitleContaining(String searchkeyword);
 
