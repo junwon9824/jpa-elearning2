@@ -7,7 +7,7 @@ package io.sample.learn.service;
 import io.sample.learn.dto.*;
 import io.sample.learn.dto.filesaverequest;
 import io.sample.learn.dto.addpointrequest;
-import io.sample.learn.entity.file;
+
 import io.sample.learn.entity.Buyfile;
 import io.sample.learn.entity.Member;
 //import io.sample.learn.repository.RoleRepository;

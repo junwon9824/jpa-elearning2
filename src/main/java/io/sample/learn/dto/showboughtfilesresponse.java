@@ -1,7 +1,6 @@
 package io.sample.learn.dto;
 
-import io.sample.learn.entity.file;
-import io.sample.learn.entity.Buyfile;
+ import io.sample.learn.entity.Buyfile;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,9 +30,9 @@ public class showboughtfilesresponse {
 
     private File[] file;
 
-    public static Object from(Buyfile buyfile) {
+    public static showboughtfilesresponse from(Buyfile buyfile) {
         return showboughtfilesresponse.builder()
-                .filepath(buyfile.getfile().getFilepath())
+                .filepath(buyfile.getFile().getFilepath())
                 .build()
                 ;
     }

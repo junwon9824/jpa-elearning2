@@ -4,6 +4,7 @@ import io.sample.learn.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -26,7 +27,7 @@ public class File extends BaseTimeEntity {
     private String owneremail;
 
     @OneToMany(mappedBy = "file")
-    private List<Buyfile> customers;
+    private List<Buyfile> customers=new ArrayList<>();
 
 
     public void addcustomer(Buyfile buyfile) {
