@@ -29,9 +29,7 @@ public class filesaverequest {
     private Long price;
     private String email;
 
-
     private List<Buyfile> members = new ArrayList<>();
-
     private MultipartFile [] multipartFile;
     public filesaverequest(File file) {
         this.id = file.getId();

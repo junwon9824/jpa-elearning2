@@ -4,9 +4,10 @@ package io.sample.learn.controller;
 import io.sample.learn.dto.Allfilesresponse;
 import io.sample.learn.dto.filebuyrequest;
 import io.sample.learn.dto.filesaverequest;
- import io.sample.learn.service.Fileservice;
+import io.sample.learn.service.Fileservice;
 import io.sample.learn.service.SignService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -16,7 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
- import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -26,6 +27,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class fileController {
     private final Fileservice fileService;
     private final SignService signService;
@@ -33,11 +35,9 @@ public class fileController {
     @PostMapping(value = "/user/save/file")
 //    public ResponseEntity<String> save( filesaverequest filesaverequest , MultipartFile multipartFile) throws Exception {
     public ResponseEntity<String> save(@ModelAttribute filesaverequest filesaverequest) throws Exception {
+        log.debug("save");
         return new ResponseEntity<>(fileService.write(filesaverequest), HttpStatus.OK);
-
-
     }
-
 
     @PutMapping(value = "/user/buy/file")
     public ResponseEntity<String> buy(@RequestBody filebuyrequest filebuyrequest) {
@@ -63,7 +63,7 @@ public class fileController {
 
     @DeleteMapping(value = "user/deletefile")
     public ResponseEntity<String> deletefile(@RequestParam String title) {
-       return new ResponseEntity<>( fileService.deletefile(title),HttpStatus.OK) ;
+        return new ResponseEntity<>(fileService.deletefile(title), HttpStatus.OK);
 
 
     }

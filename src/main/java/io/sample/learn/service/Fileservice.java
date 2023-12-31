@@ -38,7 +38,6 @@ import java.util.stream.Collectors;
 public class Fileservice {
     private final FileRepository fileRepository;
     private final MemberRepository memberRepository;
-
     private final BuyFileRepository buyfileRepository;
 
     public String write(filesaverequest filesaverequest) throws Exception {
@@ -50,6 +49,7 @@ public class Fileservice {
 
         System.out.println("title" + filesaverequest.getTitle());
         System.out.println("email owner" + filesaverequest.getEmail());
+
         String[] fileName = new String[file.length];
         File[] saveFile = new File[file.length];
 
@@ -58,7 +58,6 @@ public class Fileservice {
             saveFile[i] = new File(projectPath, fileName[i]);
 
             file[i].transferTo(saveFile[i]);
-
         }
 
 
@@ -76,12 +75,9 @@ public class Fileservice {
                 .filepath("/files/" + fileName)
                 .build());
 
-
         fileRepository.save(file2);
 
         return "file uploaded successfully! filetitle : " + filesaverequest.getTitle();
-
-
     }
 
     public String buy(filebuyrequest filebuyrequest) {
@@ -128,8 +124,8 @@ public class Fileservice {
 //                .map(file -> Allfilesresponse.from(file))
 //                .collect(Collectors.toList());
         return plist;
-
     }
+
 //
 //    public byte[] downloadFromFileSystem(String title, String filename) throws IOException {
 //        io.sample.learn.entity.File file = fileRepository.findBytitle(title);

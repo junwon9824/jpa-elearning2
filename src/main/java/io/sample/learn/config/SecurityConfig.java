@@ -1,6 +1,7 @@
 package io.sample.learn.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.sample.learn.dto.ExceptionResponse;
 import io.sample.learn.jwt.JwtAuthenticationFilter;
 import io.sample.learn.jwt.JwtProvider;
 import io.sample.learn.repository.MemberRepository;
