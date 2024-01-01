@@ -97,6 +97,7 @@ public class Fileservice {
             if (file.getPrice() > member.getPoint()) {
                 throw new IllegalArgumentException("not enough money..");
             }
+
             Buyfile buyfile = Buyfile.builder()
                     .file(file)
                     .member(member)
